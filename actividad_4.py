@@ -39,3 +39,15 @@ scaled_df = pd.DataFrame(scaled_features, columns=df_rutas.columns)
 
 print("\nDatos escalados:")
 print(scaled_df.head())
+
+# 2. Desarrollo de modelos de aprendizaje no supervisado
+
+# a) K-Means Clustering
+# El objetivo es agrupar las rutas similares en función de sus características.
+
+# Determinar el número óptimo de clusters (método del codo y silhouette score)
+inertia = []
+silhouette_coefficients = []
+# Se cambió el rango para que comience en 2 y termine en min(11, n_samples)
+# para asegurar que k siempre sea menor que el número de muestras
+k_values = range(2, min(11, scaled_df.shape[0] + 1))

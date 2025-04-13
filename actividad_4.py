@@ -135,3 +135,31 @@ plt.title(f'Clusters de Rutas (DBSCAN, eps={eps_optimo}, min_samples={min_sample
 plt.xlabel('Número de Paradas')
 plt.ylabel('Tiempo Total (minutos)')
 plt.show()
+
+# c) Análisis de Componentes Principales (PCA) para reducción de dimensionalidad (opcional para visualización)
+from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2)
+principal_components = pca.fit_transform(scaled_df)
+pca_df = pd.DataFrame(data=principal_components, columns=['principal_component_1', 'principal_component_2'])
+pca_df['cluster_kmeans'] = df_rutas['cluster_kmeans']
+pca_df['cluster_dbscan'] = df_rutas['cluster_dbscan']
+
+print("\nDataset con componentes principales:")
+print(pca_df.head())
+
+# Visualización de clusters K-Means en el espacio PCA
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=pca_df, x='principal_component_1', y='principal_component_2', hue='cluster_kmeans', palette='viridis')
+plt.title(f'Clusters K-Means en el espacio PCA ({n_clusters} clusters)')
+plt.xlabel('Componente Principal 1')
+plt.ylabel('Componente Principal 2')
+plt.show()
+
+# Visualización de clusters DBSCAN en el espacio PCA
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=pca_df, x='principal_component_1', y='principal_component_2', hue='cluster_dbscan', palette='viridis')
+plt.title(f'Clusters DBSCAN en el espacio PCA (eps={eps_optimo}, min_samples={min_samples_optimo})')
+plt.xlabel('Componente Principal 1')
+plt.ylabel('Componente Principal 2')
+plt.show()

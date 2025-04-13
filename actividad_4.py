@@ -163,3 +163,19 @@ plt.title(f'Clusters DBSCAN en el espacio PCA (eps={eps_optimo}, min_samples={mi
 plt.xlabel('Componente Principal 1')
 plt.ylabel('Componente Principal 2')
 plt.show()
+
+# 3. Interpretación de los resultados (esto dependerá del contexto específico)
+# Los clusters identificados por K-Means y DBSCAN representan grupos de rutas
+# que comparten similitudes en términos de número de paradas y tiempo total (proxy de distancia).
+#
+# - Los clusters de K-Means intentan encontrar grupos esféricos basados en la distancia.
+# - Los clusters de DBSCAN identifican áreas densas de puntos, lo que puede ser útil
+#   para encontrar patrones de rutas congestionadas o rutas directas.
+#
+# El análisis de estos clusters podría ayudar a:
+# - Identificar tipos de rutas (cortas y rápidas, largas con muchas paradas, etc.).
+# - Planificar mejoras en el sistema de transporte.
+# - Comprender mejor los patrones de movimiento.
+#
+# Es importante recordar que la interpretación de los clusters requiere un conocimiento
+# profundo del sistema de transporte que se está modelando.

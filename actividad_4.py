@@ -29,3 +29,13 @@ df_rutas = pd.DataFrame(data, columns=['num_paradas', 'distancia_aproximada', 't
 
 print("Muestra del dataset generado para aprendizaje no supervisado:")
 print(df_rutas.head())
+
+# 1. Preprocesamiento de los datos
+# Escalado de características para que tengan una media de 0 y una desviación estándar de 1.
+# Esto es importante para algoritmos basados en la distancia como K-Means.
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(df_rutas)
+scaled_df = pd.DataFrame(scaled_features, columns=df_rutas.columns)
+
+print("\nDatos escalados:")
+print(scaled_df.head())

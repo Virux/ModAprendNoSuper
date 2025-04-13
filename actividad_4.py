@@ -108,3 +108,30 @@ from sklearn.cluster import DBSCAN
 # Se probarán algunos valores.
 eps_values = [0.5, 1, 1.5]
 min_samples_values = [3, 5, 7]
+
+for eps in eps_values:
+    for min_samples in min_samples_values:
+        dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+        clusters_dbscan = dbscan.fit_predict(scaled_df)
+        n_clusters_dbscan = len(set(clusters_dbscan)) - (1 if -1 in clusters_dbscan else 0)
+        n_noise_dbscan = list(clusters_dbscan).count(-1)
+        print(f"\nResultados de DBSCAN con eps={eps}, min_samples={min_samples}:")
+        print(f"  Número de clusters encontrados: {n_clusters_dbscan}")
+        print(f"  Número de puntos de ruido: {n_noise_dbscan}")
+
+# Aplicar DBSCAN con parámetros elegidos (basado en la experimentación anterior)
+eps_optimo = 1.0
+min_samples_optimo = 5
+dbscan = DBSCAN(eps=eps_optimo, min_samples=min_samples_optimo)
+df_rutas['cluster_dbscan'] = dbscan.fit_predict(scaled_df)
+
+print(f"\nDataset con etiquetas de cluster de DBSCAN (eps={eps_optimo}, min_samples={min_samples_optimo}):")
+print(df_rutas.head())
+
+# Visualización de los clusters DBSCAN (ejemplo con dos características)
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df_rutas, x='num_paradas', y='tiempo_total', hue='cluster_dbscan', palette='viridis')
+plt.title(f'Clusters de Rutas (DBSCAN, eps={eps_optimo}, min_samples={min_samples_optimo})')
+plt.xlabel('Número de Paradas')
+plt.ylabel('Tiempo Total (minutos)')
+plt.show()

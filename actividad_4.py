@@ -81,3 +81,30 @@ plt.xlabel('Número de clusters (k)')
 plt.ylabel('Silhouette Score')
 plt.tight_layout()
 plt.show()
+
+# Basado en la visualización (el usuario deberá interpretar los gráficos),
+# se elige un número de clusters 'n_clusters'. Para este ejemplo, asumiremos 3.
+n_clusters = 3
+kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+df_rutas['cluster_kmeans'] = kmeans.fit_predict(scaled_df)
+
+print("\nDataset con etiquetas de cluster de K-Means:")
+print(df_rutas.head())
+
+# Visualización de los clusters K-Means (ejemplo con dos características)
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df_rutas, x='num_paradas', y='tiempo_total', hue='cluster_kmeans', palette='viridis')
+plt.title(f'Clusters de Rutas (K-Means, {n_clusters} clusters)')
+plt.xlabel('Número de Paradas')
+plt.ylabel('Tiempo Total (minutos)')
+plt.show()
+
+# b) DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+# El objetivo es encontrar grupos de alta densidad separados por regiones de baja densidad.
+from sklearn.cluster import DBSCAN
+
+# Determinar los parámetros óptimos para DBSCAN (eps y min_samples)
+# Esto a menudo requiere experimentación y conocimiento del dominio.
+# Se probarán algunos valores.
+eps_values = [0.5, 1, 1.5]
+min_samples_values = [3, 5, 7]

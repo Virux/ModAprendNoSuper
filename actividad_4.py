@@ -51,3 +51,33 @@ silhouette_coefficients = []
 # Se cambió el rango para que comience en 2 y termine en min(11, n_samples)
 # para asegurar que k siempre sea menor que el número de muestras
 k_values = range(2, min(11, scaled_df.shape[0] + 1))
+
+for k in k_values:
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(scaled_df)
+    inertia.append(kmeans.inertia_)
+    # Solo calcular silhouette score si k es menor que el número de muestras - 1
+    if k < scaled_df.shape[0]:
+        score = silhouette_score(scaled_df, kmeans.labels_)
+        silhouette_coefficients.append(score)
+    else:
+        # Agregar un valor NaN a la lista silhouette_coefficients para indicar
+        # que el silhouette score no se pudo calcular para este valor de k
+        silhouette_coefficients.append(float('nan'))
+
+# Visualización del método del codo
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+plt.plot(k_values, inertia, 'o-')
+plt.title('Método del Codo para determinar el número óptimo de clusters')
+plt.xlabel('Número de clusters (k)')
+plt.ylabel('Inercia')
+
+# Visualización del Silhouette Score
+plt.subplot(1, 2, 2)
+plt.plot(k_values, silhouette_coefficients, 'o-')
+plt.title('Silhouette Score para determinar el número óptimo de clusters')
+plt.xlabel('Número de clusters (k)')
+plt.ylabel('Silhouette Score')
+plt.tight_layout()
+plt.show()
